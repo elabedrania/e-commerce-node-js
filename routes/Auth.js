@@ -43,7 +43,7 @@ router.post('/login', async(req, res) => {
     const validPass = await bcrypt.compare(req.body.Password, user.Password)
     if (!validPass) return res.status(400).send('Email or Password is wrong');
     //Create and assign token
-    const token = jwt.sign({ _id: user._id, IsAdmin: user.IsAdmin, Email: user.Email }, "ichrak123");
+    const token = jwt.sign({ _id: user._id, IsAdmin: user.IsAdmin, Email: user.Email }, "rania123");
     res.header('authToken', token).send({ token: token, logedin: true });
 });
 //verif user present ou non

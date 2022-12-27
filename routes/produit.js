@@ -17,7 +17,7 @@ router.post('/addProduct', auth, (req, res) => {
 
 
 
-//get all products{} ay product
+//get all products{} les produits lkoll
 router.get('/allProducts', auth, (req, res) => {
     Product.find({}, (err, data) => {
         if (err) {
