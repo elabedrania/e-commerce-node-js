@@ -8,8 +8,12 @@ userSchema = new schema({
     Address: { type: String },
     Phone: { type: String, required: false },
     IsAdmin: { required: true, type: Boolean, default: false },
-    DateInscription: { type: Date, required: false, default: new Date().toDateString() }
-
+    DateInscription: { type: Date, required: false, default: new Date().toDateString() },
+    IsActive:{
+        type: Boolean,
+        default: false
+    },
+    activationCode: {type: String}
 
 
 

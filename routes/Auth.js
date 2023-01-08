@@ -18,11 +18,19 @@ router.post('/register', async(req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHashed = await bcrypt.hash(req.body.Password, salt);
 
+
+    const character = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let activationCode = "";
+    for(let i = 0; i< 25; i++){
+        activationCode += character[Math.floor(Math.random()* character.length)];
+    }
+
     const newUser = new User({
         FirstName: req.body.FirstName,
         LastName: req.body.LastName,
         Email: req.body.Email,
-        Password: passwordHashed
+        Password: passwordHashed,
+        activationCode: activationCode
     });
     try {
         const addNewUser = await newUser.save();
@@ -42,6 +50,9 @@ router.post('/login', async(req, res) => {
     // Check Password
     const validPass = await bcrypt.compare(req.body.Password, user.Password)
     if (!validPass) return res.status(400).send('Email or Password is wrong');
+    if(user && validPass && !user.isActive){
+        return res.send('Veillez vérifier votre boite e-mail pour la verification')
+    }
     //Create and assign token
     const token = jwt.sign({ _id: user._id, IsAdmin: user.IsAdmin, Email: user.Email }, "rania123");
     res.header('authToken', token).send({ token: token, logedin: true });

@@ -5,7 +5,7 @@ const router = require('express').Router();
 
 //buy new product
 
-router.post('/newCommande', auth, async(req, res) => {
+router.post('/newCommande', async(req, res) => {
     await Product.findOne({ _id: req.body.productID }, (err, data) => {
 
         if (err) {
@@ -25,7 +25,7 @@ router.post('/newCommande', auth, async(req, res) => {
 
 
 //user orders de commande by userID
-router.get('/myOrders/:id', auth, (req, res) => {
+router.get('/myOrders/:id', (req, res) => {
     let id = req.params.id
     Commande.find({ userId: id }, (err, data) => {
         if (err) {
@@ -38,15 +38,15 @@ router.get('/myOrders/:id', auth, (req, res) => {
 
 
 //all orders by admin
-router.get('/allOrders', auth, (req, res) => {
-    if (req.user.IsAdmin == true) {
+router.get('/allOrders', (req, res) => {
+    
         Commande.find({}, (err, data) => {
             if (err) {
                 res.send(err)
             }
             res.send(data)
         })
-    }
+    
 
 })
 
